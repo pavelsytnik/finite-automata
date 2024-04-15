@@ -1,2 +1,4 @@
-package pavelsytnik.automata;public class State {
+package pavelsytnik.automata;
+
+public class State {
 }

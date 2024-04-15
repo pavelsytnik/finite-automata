@@ -1,2 +1,4 @@
-package pavelsytnik.automata;public class Symbol {
+package pavelsytnik.automata;
+
+public class Symbol {
 }
