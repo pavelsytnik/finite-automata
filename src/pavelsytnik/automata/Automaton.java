@@ -5,13 +5,13 @@ import java.util.HashSet;
 
 public class Automaton {
 
-    private final Set<State> states;
+    private final Set<Symbol> states;
     private final Set<Symbol> alphabet;
     private final Set<Transition> transitions;
-    private final State startState;
-    private final Set<State> acceptStates;
+    private final Symbol startState;
+    private final Set<Symbol> acceptStates;
 
-    public Automaton(Set<State> states, Set<Symbol> alphabet, State start, Set<State> accept) {
+    public Automaton(Set<Symbol> states, Set<Symbol> alphabet, Symbol start, Set<Symbol> accept) {
         this.states = states;
         this.alphabet = alphabet;
         this.transitions = new HashSet<>();
