@@ -15,7 +15,31 @@ public class Automaton {
         this.states = states;
         this.alphabet = alphabet;
         this.transitions = new HashSet<>();
+
+        validateStartAndAcceptStates(start, accept);
         this.startState = start;
         this.acceptStates = accept;
+    }
+
+    private void validateStartAndAcceptStates(Symbol start, Set<Symbol> accept) {
+        boolean startError = !states.contains(start);
+        boolean acceptError = !states.containsAll(accept);
+        if (startError || acceptError)
+            throw new IllegalArgumentException(constructErrorMessage(startError, acceptError));
+    }
+
+    private String constructErrorMessage(boolean startError, boolean acceptError) {
+        String errorMessage;
+
+        if (startError && acceptError)
+            errorMessage = "sa";
+        else if (startError)
+            errorMessage = "s";
+        else if (acceptError)
+            errorMessage = "a";
+        else
+            errorMessage = "";
+
+        return errorMessage;
     }
 }
