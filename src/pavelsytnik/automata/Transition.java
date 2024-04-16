@@ -12,6 +12,18 @@ public class Transition {
         nextState = next;
     }
 
+    public Symbol getCurrentState() {
+        return currentState;
+    }
+
+    public Symbol getInputSymbol() {
+        return inputSymbol;
+    }
+
+    public Symbol getNextState() {
+        return nextState;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this)
