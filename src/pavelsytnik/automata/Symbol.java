@@ -1,10 +1,20 @@
 package pavelsytnik.automata;
 
+import java.util.Set;
+
 public class Symbol {
 
     public static final Symbol EPSILON = new Symbol("");
 
     private final String sym;
+
+    public static Symbol merge(Set<Symbol> symbols) {
+        var union = new StringBuilder();
+        for (var s : symbols) {
+            union.append(s.toString());
+        }
+        return new Symbol(union.toString());
+    }
 
     public Symbol(String sym) {
         this.sym = sym;
