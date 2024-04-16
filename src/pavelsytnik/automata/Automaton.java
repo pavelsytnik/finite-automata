@@ -2,6 +2,8 @@ package pavelsytnik.automata;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Queue;
+import java.util.ArrayDeque;
 
 public class Automaton {
 
@@ -24,6 +26,52 @@ public class Automaton {
     public void addTransition(Symbol current, Symbol input, Symbol next) {
         validateSymbolsForTransition(current, input, next);
         transitions.add(new Transition(current, input, next));
+    }
+
+    public Automaton toDeterministic() {
+        boolean isStart = true;
+
+        Set<Symbol> statesStroke = new HashSet<>();
+        Set<Transition> transitionsStroke = new HashSet<>();
+
+        Queue<Set<Symbol>> queue = new ArrayDeque<>();
+
+        Set<Symbol> currentStates;
+        Set<Symbol> newStates;
+        Symbol initial = null;
+        Set<Symbol> accept = new HashSet<>();
+
+        queue.add(Set.of(startState));
+        while (!queue.isEmpty()) {
+            currentStates = epsilonClosure(queue.poll());
+
+            for (var s : alphabet) {
+                newStates = move(currentStates, s);
+
+                if (!statesStroke.containsAll(epsilonClosure(newStates))) {
+                    if (isStart) {
+                        statesStroke.add(Symbol.merge(epsilonClosure(currentStates)));
+                        initial = Symbol.merge(epsilonClosure(currentStates));
+                        isStart = false;
+                    }
+                    queue.add(newStates);
+                    statesStroke.add(Symbol.merge(epsilonClosure(newStates)));
+                    for (var e : epsilonClosure(newStates)) {
+                        if (acceptStates.contains(e)) {
+                            accept.add(Symbol.merge(epsilonClosure(newStates)));
+                            break;
+                        }
+                    }
+                }
+                if (!newStates.isEmpty()) {
+                    transitionsStroke.add(new Transition(Symbol.merge(currentStates), s, Symbol.merge(epsilonClosure(newStates))));
+                }
+            }
+        }
+
+        var dfa = new Automaton(statesStroke, alphabet, initial, accept);
+        dfa.transitions.addAll(transitionsStroke);
+        return dfa;
     }
 
     private Set<Symbol> epsilonClosure(Symbol state) {
