@@ -71,7 +71,7 @@ public class Automaton {
     }
 
     private void validateSymbolsForTransition(Symbol current, Symbol input, Symbol next) {
-        if (!states.contains(current) || !alphabet.contains(input) || !states.contains(next))
+        if (!states.contains(current) || (!input.equals(Symbol.EPSILON) && !alphabet.contains(input)) || !states.contains(next))
             throw new IllegalArgumentException("to do error message");
     }
 
