@@ -21,11 +21,21 @@ public class Automaton {
         this.acceptStates = accept;
     }
 
+    public void addTransition(Symbol current, Symbol input, Symbol next) {
+        validateSymbolsForTransition(current, input, next);
+        transitions.add(new Transition(current, input, next));
+    }
+
     private void validateStartAndAcceptStates(Symbol start, Set<Symbol> accept) {
         boolean startError = !states.contains(start);
         boolean acceptError = !states.containsAll(accept);
         if (startError || acceptError)
             throw new IllegalArgumentException(constructErrorMessage(startError, acceptError));
+    }
+
+    private void validateSymbolsForTransition(Symbol current, Symbol input, Symbol next) {
+        if (!states.contains(current) || !alphabet.contains(input) || !states.contains(next))
+            throw new IllegalArgumentException("to do error message");
     }
 
     private String constructErrorMessage(boolean startError, boolean acceptError) {
