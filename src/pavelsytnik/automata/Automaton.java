@@ -39,6 +39,30 @@ public class Automaton {
         return reachable;
     }
 
+    private Set<Symbol> epsilonClosure(Set<Symbol> states) {
+        Set<Symbol> reachable = new HashSet<>();
+
+        for (var s : states) {
+            reachable.addAll(epsilonClosure(s));
+        }
+
+        return reachable;
+    }
+
+    private Set<Symbol> move(Set<Symbol> currentStates, Symbol input) {
+        Set<Symbol> nextStates = new HashSet<>();
+
+        for (var s : currentStates) {
+            for (var t : transitions) {
+                if (t.getCurrentState().equals(s) && t.getInputSymbol().equals(input)) {
+                    nextStates.add(t.getNextState());
+                }
+            }
+        }
+
+        return nextStates;
+    }
+
     private void validateStartAndAcceptStates(Symbol start, Set<Symbol> accept) {
         boolean startError = !states.contains(start);
         boolean acceptError = !states.containsAll(accept);
