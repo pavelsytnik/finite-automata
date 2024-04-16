@@ -2,6 +2,8 @@ package pavelsytnik.automata;
 
 public class Symbol {
 
+    public static final Symbol EPSILON = new Symbol("");
+
     private final String sym;
 
     public Symbol(String sym) {

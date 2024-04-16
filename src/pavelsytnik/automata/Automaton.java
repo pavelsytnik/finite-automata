@@ -31,7 +31,7 @@ public class Automaton {
         reachable.add(state);
 
         for (var t : transitions) {
-            if (t.getCurrentState().equals(state) && t.getInputSymbol().equals(new Symbol(""))) {
+            if (t.getCurrentState().equals(state) && t.getInputSymbol().equals(Symbol.EPSILON)) {
                 reachable.addAll(epsilonClosure(t.getNextState()));
             }
         }
