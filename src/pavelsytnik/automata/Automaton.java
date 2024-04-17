@@ -29,7 +29,6 @@ public class Automaton {
     }
 
     public Automaton toDeterministic() {
-        boolean isStart = true;
 
         Set<Symbol> statesStroke = new HashSet<>();
         Set<Transition> transitionsStroke = new HashSet<>();
@@ -38,10 +37,13 @@ public class Automaton {
 
         Set<Symbol> currentStates;
         Set<Symbol> newStates;
-        Symbol initial = null;
         Set<Symbol> accept = new HashSet<>();
 
         queue.add(Set.of(startState));
+        currentStates = epsilonClosure(queue.peek() != null ? queue.peek() : Set.of()); // explicit null check for compiler not to complain
+        var initial = Symbol.merge(epsilonClosure(currentStates));
+        statesStroke.add(initial);
+
         while (!queue.isEmpty()) {
             currentStates = epsilonClosure(queue.poll());
 
@@ -49,13 +51,9 @@ public class Automaton {
                 newStates = move(currentStates, s);
 
                 if (!statesStroke.containsAll(epsilonClosure(newStates))) {
-                    if (isStart) {
-                        statesStroke.add(Symbol.merge(epsilonClosure(currentStates)));
-                        initial = Symbol.merge(epsilonClosure(currentStates));
-                        isStart = false;
-                    }
                     queue.add(newStates);
                     statesStroke.add(Symbol.merge(epsilonClosure(newStates)));
+
                     for (var e : epsilonClosure(newStates)) {
                         if (acceptStates.contains(e)) {
                             accept.add(Symbol.merge(epsilonClosure(newStates)));
@@ -63,6 +61,7 @@ public class Automaton {
                         }
                     }
                 }
+
                 if (!newStates.isEmpty()) {
                     transitionsStroke.add(new Transition(Symbol.merge(currentStates), s, Symbol.merge(epsilonClosure(newStates))));
                 }
