@@ -23,6 +23,26 @@ public class Automaton {
         this.acceptStates = accept;
     }
 
+    public Set<Symbol> getStates() {
+        return states;
+    }
+
+    public Set<Symbol> getAlphabet() {
+        return alphabet;
+    }
+
+    public Set<Transition> getTransitions() {
+        return transitions;
+    }
+
+    public Symbol getStartState() {
+        return startState;
+    }
+
+    public Set<Symbol> getAcceptStates() {
+        return acceptStates;
+    }
+
     public void addTransition(Symbol current, Symbol input, Symbol next) {
         validateSymbolsForTransition(current, input, next);
         transitions.add(new Transition(current, input, next));
