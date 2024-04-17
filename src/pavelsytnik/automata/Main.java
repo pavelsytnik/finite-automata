@@ -1,5 +1,6 @@
 package pavelsytnik.automata;
 
+import java.sql.SQLOutput;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -42,5 +43,38 @@ public class Main {
         automaton.addTransition(new Symbol("J"), new Symbol("2"), new Symbol("qf"));
 
         var dfa = automaton.toDeterministic();
+
+        printAutomaton(automaton);
+        printAutomaton(dfa);
+    }
+
+    private static void printAutomaton(Automaton a) {
+        System.out.println("States:");
+        for (var s : a.getStates()) {
+            System.out.println("\t" + s);
+        }
+        System.out.println();
+
+        System.out.println("Alphabet:");
+        for (var e : a.getAlphabet()) {
+            System.out.println("\t" + e);
+        }
+        System.out.println();
+
+        System.out.println("Initial state:");
+        System.out.println("\t" + a.getStartState());
+        System.out.println();
+
+        System.out.println("Accept states:");
+        for (var s : a.getAcceptStates()) {
+            System.out.println("\t" + s);
+        }
+        System.out.println();
+
+        System.out.println("Transitions:");
+        for (var t : a.getTransitions()) {
+            System.out.println("\t" + t);
+        }
+        System.out.println();
     }
 }
