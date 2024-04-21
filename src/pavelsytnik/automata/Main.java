@@ -1,6 +1,5 @@
 package pavelsytnik.automata;
 
-import java.sql.SQLOutput;
 import java.util.Set;
 import java.util.HashSet;
 
